@@ -1,9 +1,7 @@
 """
-SR830.py - A Python wrapper for the Stanford Research SR830 lock-in
-(instrument commands taken from the SR830 manual uploaded by the user).
-Requires: pyvisa
+srlock.py - A Python wrapper for the Stanford Research SR830 lock-in
 
-Author: ChatGPT (GPT-5 Thinking mini)
+Requires: pyvisa
 Notes:
  - This implements a high-coverage set of commands described in the SR830
    manual. It also exposes a low-level send/query API so you can call any
@@ -15,7 +13,7 @@ Notes:
  - Binary transfer helpers for TRCB? (IEEE float) and TRCL? (LIA non-normalized)
    are implemented. For TRCB? the code reads raw IEEE floats; for TRCL? the LIA
    format is decoded as: mantissa (signed 16-bit) and exponent (signed 16-bit)
-   and value = mantissa * 2**(exp - 124) — matching the example in the manual.
+   and value = mantissa * 2**(exp - 124).
 """
 
 import time
@@ -25,10 +23,11 @@ from typing import Optional, Sequence, Tuple, List, Union
 import pyvisa  # pip install pyvisa
 
 # If using the NI backend, environment must be set up (NI-VISA).
-# Example resource string: 'GPIB0::8::INSTR' or 'GPIB::8::INSTR' depending on system.
+
 
 class SR830Error(Exception):
     pass
+
 
 class SR830:
     """
@@ -39,7 +38,13 @@ class SR830:
     # Serial Poll Interface Ready bit (bit 1 -> value 2)
     _IFC_READY_MASK = 0x02
 
-    def __init__(self, resource: Optional[str] = None, gpib_bus: int = 0, address: Optional[int] = None, timeout: int = 5000):
+    def __init__(
+        self,
+        resource: Optional[str] = None,
+        gpib_bus: int = 0,
+        address: Optional[int] = None,
+        timeout: int = 5000,
+    ):
         """
         Create an SR830 object.
         - resource: full VISA resource string, e.g. 'GPIB0::8::INSTR'. If provided, address/gpib_bus are ignored.
@@ -51,7 +56,9 @@ class SR830:
         self._resource_string = resource
         if resource is None:
             if address is None:
-                raise ValueError("Either resource (VISA string) or address must be provided.")
+                raise ValueError(
+                    "Either resource (VISA string) or address must be provided."
+                )
             # construct a common VISA resource string
             self._resource_string = f"GPIB{gpib_bus}::{address}::INSTR"
 
@@ -61,12 +68,10 @@ class SR830:
         # Configure read termination (GPIB uses '\n' / EOI by default with VISA)
         # set termination for reads/writes; pyvisa adds it if the device returns it.
         # The SR830 uses LF termination on GPIB for queries.
-        self.inst.read_termination = '\n'
-        self.inst.write_termination = '\n'
+        self.inst.read_termination = "\n"
+        self.inst.write_termination = "\n"
 
-    # ----------------------
     # Low-level helpers
-    # ----------------------
     def _serial_poll_status(self) -> int:
         """
         Read the Serial Poll Status Byte (STB). This uses VISA's read_stb() which
@@ -90,7 +95,9 @@ class SR830:
             if (stb & self._IFC_READY_MASK) != 0:
                 return
             time.sleep(poll_interval)
-        raise SR830Error("Timeout waiting for instrument to become ready (IFC RDY bit).")
+        raise SR830Error(
+            "Timeout waiting for instrument to become ready (IFC RDY bit)."
+        )
 
     def send(self, cmd: str, wait_for_completion: bool = True, timeout_s: float = 5.0):
         """
@@ -117,7 +124,9 @@ class SR830:
         resp = self.inst.read()
         return resp.strip()
 
-    def read_raw(self, num_bytes: Optional[int] = None, timeout_s: float = 5.0) -> bytes:
+    def read_raw(
+        self, num_bytes: Optional[int] = None, timeout_s: float = 5.0
+    ) -> bytes:
         """
         Read raw bytes from instrument. If num_bytes is None, read until termination/EOI.
         Use caution for binary transfers: instrument may send bytes with no terminator.
@@ -127,9 +136,7 @@ class SR830:
         # When reading a fixed number of bytes, use read_bytes
         return self.inst.read_bytes(num_bytes)
 
-    # ----------------------
     # Generic convenience
-    # ----------------------
     def idn(self) -> str:
         "Return the ❊IDN? string (device identification)."
         return self.query("*IDN?")
@@ -158,9 +165,7 @@ class SR830:
             self.send(cmd)
             return None
 
-    # ----------------------
     # Reference & phase commands
-    # ----------------------
     def phas(self, x: Optional[float] = None) -> Optional[float]:
         "PHAS {x} set phase shift; PHAS? query. Returns new phase on query."
         if x is None:
@@ -210,9 +215,7 @@ class SR830:
             self.send(f"SLVL {float(x)}")
             return None
 
-    # ----------------------
     # Input and filter commands
-    # ----------------------
     def isrc(self, i: Optional[int] = None) -> Optional[int]:
         "ISRC {i} input configuration: A=0, A-B=1, I(1M)=2, I(100M)=3"
         if i is None:
@@ -245,9 +248,7 @@ class SR830:
             self.send(f"ILIN {int(i)}")
             return None
 
-    # ----------------------
     # Gain & time constant commands
-    # ----------------------
     def sens(self, i: Optional[int] = None) -> Optional[int]:
         "SENS {i} set/query sensitivity index (see manual table)."
         if i is None:
@@ -288,9 +289,7 @@ class SR830:
             self.send(f"SYNC {int(i)}")
             return None
 
-    # ----------------------
     # Display & output commands
-    # ----------------------
     def ddef(self, i: int, j: int = 0, k: int = 0) -> Optional[Tuple[int, int]]:
         """
         DDEF i, j, k - set display i (1=CH1,2=CH2) to quantity j and ratio k.
@@ -303,8 +302,8 @@ class SR830:
 
     def ddef_query(self, i: int) -> Tuple[int, int]:
         resp = self.query(f"DDEF? {int(i)}")
-        parts = resp.split(',')
-        return (int(parts[0]), int(parts[1]) if len(parts)>1 else 0)
+        parts = resp.split(",")
+        return (int(parts[0]), int(parts[1]) if len(parts) > 1 else 0)
 
     def fpop(self, i: int, j: Optional[int] = None) -> Optional[int]:
         "FPOP i, j sets front panel output source; FPOP? i queries j."
@@ -321,7 +320,7 @@ class SR830:
         """
         if x is None and j is None:
             resp = self.query(f"OEXP? {int(i)}")
-            off, ex = resp.split(',')
+            off, ex = resp.split(",")
             return float(off), int(ex)
         if x is None or j is None:
             raise ValueError("Both x and j are required to set OEXP")
@@ -331,9 +330,7 @@ class SR830:
         "AOFF i - auto offset X(1), Y(2) or R(3)."
         self.send(f"AOFF {int(i)}")
 
-    # ----------------------
     # Aux input/output
-    # ----------------------
     def oaux(self, i: int) -> float:
         "OAUX? i query Aux Input i (1..4) - returns volts as float."
         resp = self.query(f"OAUX? {int(i)}")
@@ -347,9 +344,7 @@ class SR830:
             self.send(f"AUXV {int(i)},{float(x)}")
             return None
 
-    # ----------------------
     # Setup commands
-    # ----------------------
     def ovrm(self, i: Optional[int] = None) -> Optional[int]:
         "OVRM {i} set/query override remote (0 no, 1 yes)"
         if i is None:
@@ -382,9 +377,7 @@ class SR830:
         "RSET i - recall setup buffer i (1..9)"
         self.send(f"RSET {int(i)}")
 
-    # ----------------------
     # Auto functions
-    # ----------------------
     def agan(self):
         "AGAN - Auto Gain"
         self.send("AGAN")
@@ -397,9 +390,7 @@ class SR830:
         "APHS - Auto Phase"
         self.send("APHS")
 
-    # ----------------------
     # Data storage & acquisition
-    # ----------------------
     def srat(self, i: Optional[int] = None) -> Optional[int]:
         "SRAT {i} set/query sample rate (0..13 or 14=Trigger)"
         if i is None:
@@ -436,9 +427,7 @@ class SR830:
         "REST - reset data buffers (erase)"
         self.send("REST")
 
-    # ----------------------
     # Data transfer commands
-    # ----------------------
     def outp(self, i: int) -> float:
         """
         OUTP? i - read value of X(1), Y(2), R(3), theta(4)
@@ -462,8 +451,8 @@ class SR830:
             raise ValueError("SNAP? requires between 2 and 6 parameters.")
         param_str = ",".join(str(int(p)) for p in params)
         resp = self.query(f"SNAP? {param_str}")
-        parts = resp.split(',')
-        return [float(p) for p in parts if p != '']
+        parts = resp.split(",")
+        return [float(p) for p in parts if p != ""]
 
     def spts(self) -> int:
         "SPTS? - return number of points stored in data buffer."
@@ -479,7 +468,7 @@ class SR830:
         cmd = f"TRCA? {int(channel)},{int(start_bin)},{int(count)}"
         resp = self.query(cmd)
         # response is comma separated, trailing comma may be present per manual
-        parts = [p for p in resp.split(',') if p.strip() != '']
+        parts = [p for p in resp.split(",") if p.strip() != ""]
         return [float(p) for p in parts]
 
     def trcb(self, channel: int, start_bin: int, count: int) -> List[float]:
@@ -497,7 +486,7 @@ class SR830:
         nbytes = 4 * int(count)
         raw = self.inst.read_bytes(nbytes)
         # Interpret as little-endian floats (IEEE 754)
-        vals = list(struct.unpack('<' + 'f' * int(count), raw))
+        vals = list(struct.unpack("<" + "f" * int(count), raw))
         return vals
 
     def trcl(self, channel: int, start_bin: int, count: int) -> List[float]:
@@ -517,7 +506,7 @@ class SR830:
         # parse little-endian pairs of signed shorts
         for i in range(int(count)):
             offset = i * 4
-            mantissa, exponent = struct.unpack('<hh', raw[offset:offset+4])
+            mantissa, exponent = struct.unpack("<hh", raw[offset : offset + 4])
             val = float(mantissa) * (2.0 ** (float(exponent) - 124.0))
             vals.append(val)
         return vals
@@ -533,43 +522,41 @@ class SR830:
         "STRD - start scan after 0.5s delay for FAST mode transfers"
         self.send("STRD")
 
-    # ----------------------
     # Interface & status commands
-    # ----------------------
     def cls(self):
-        "❊CLS - clear all status registers (enable registers unaffected)."
+        "CLS - clear all status registers (enable registers unaffected)."
         self.send("*CLS")
 
     def ese(self, i: Optional[int] = None):
-        "❊ESE {i} set/query standard event enable register (0..255)"
+        "ESE {i} set/query standard event enable register (0..255)"
         if i is None:
             return int(self.query("*ESE?"))
         else:
             self.send(f"*ESE {int(i)}")
 
     def esr(self, i: Optional[int] = None) -> Optional[int]:
-        "❊ESR? query standard event status byte (read clears it)."
+        "ESR? query standard event status byte (read clears it)."
         if i is None:
             return int(self.query("*ESR?"))
         else:
             return int(self.query(f"*ESR? {int(i)}"))
 
     def sre(self, i: Optional[int] = None):
-        "❊SRE {i} set/query serial poll enable register"
+        "SRE {i} set/query serial poll enable register"
         if i is None:
             return int(self.query("*SRE?"))
         else:
             self.send(f"*SRE {int(i)}")
 
     def stb(self, i: Optional[int] = None):
-        "❊STB? query serial poll status byte (read-only, doesn't clear bits)."
+        "STB? query serial poll status byte (read-only, doesn't clear bits)."
         if i is None:
             return int(self.query("*STB?"))
         else:
             return int(self.query(f"*STB? {int(i)}"))
 
     def psc(self, i: Optional[int] = None):
-        "❊PSC {i} set value of power-on status clear bit"
+        "PSC {i} set value of power-on status clear bit"
         if i is None:
             return int(self.query("*PSC?"))
         else:
@@ -621,22 +608,21 @@ class SR830:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
-# ----------------------
+
 # Example usage
-# ----------------------
 if __name__ == "__main__":
     # Example: open GPIB0 address 8 (adjust to your system)
     # NOTE: change the resource string to match your configuration.
     res = "GPIB0::8::INSTR"
     with SR830(resource=res, timeout=10000) as lia:
-        print("IDN:", lia.idn())            # ❊IDN?
-        lia.outx(1)                         # ensure responses to GPIB
+        print("IDN:", lia.idn())  # IDN?
+        lia.outx(1)  # ensure responses to GPIB
         print("Current phase (deg):", lia.phas())  # PHAS?
-        lia.fmod(1)                         # internal reference
-        lia.freq(1000.0)                    # set internal freq to 1 kHz
+        lia.fmod(1)  # internal reference
+        lia.freq(1000.0)  # set internal freq to 1 kHz
         print("Freq set, read back:", lia.freq())  # FREQ?
         # Example snapshot of X and Y and frequency:
-        snap_vals = lia.snap([1,2,9])       # X, Y, RefFreq
+        snap_vals = lia.snap([1, 2, 9])  # X, Y, RefFreq
         print("SNAP X,Y,f:", snap_vals)
         # Example: read CH1 ASCII buffer points
         n = lia.spts()
