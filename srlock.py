@@ -20,7 +20,7 @@ import time
 import struct
 from typing import Optional, Sequence, Tuple, List, Union
 
-import pyvisa  # pip install pyvisa
+import pyvisa as visa  # pip install pyvisa
 
 # If using the NI backend, environment must be set up (NI-VISA).
 
