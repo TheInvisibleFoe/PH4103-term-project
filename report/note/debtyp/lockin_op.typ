@@ -34,7 +34,7 @@ of $V_"out" = V_0$. Note that it's not necessary that the input signal is a pure
 most of the times it will not be one. 
 
 #figure(
-    image("PSD.png", width: 70%),
+    image("images/PSD.png", width: 70%),
     caption: [Schematic diagram of a Phase Sensitive Detector (Credits: Zelbear on Wikipedia)],
 )
 #pagebreak()
@@ -44,7 +44,7 @@ we just described, twice in the two quadratures by using a $90 degree$ phase shi
 It's better explained by this schematic diagram shown below.
 
 #figure(
-    image("lockin_block_diagram.png", width: 60%),
+    image("images/lockin_block_diagram.png", width: 60%),
     caption: [Schematic Diagram for the SR830 Lock-In Amplifier (Credits: Stanford Research Systems)],
 )
 
@@ -54,15 +54,15 @@ $
 R = sqrt(X^2 + Y^2)
 $
 $
-theta = arctan(Y/X)
+  theta = arctan(Y/X)
 $
-
+#pagebreak()
 == Core Blocks and Specifications of the SR830
 In this section we describe the core blocks of the SR830 lock-in amplifier, along with the various
 specifications and available values for the adjustable parameters in those blocks. Below is an
 image of the front-panel of the SR830.
 #figure(
-    image("lockin_front.jpg", width:50%),
+    image("images/lockin_front.jpg", width:70%),
     caption: [Front Panel of the SR830 (Credits: Stanford Research Systems)],
 )
 === Input
