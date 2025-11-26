@@ -65,6 +65,27 @@ image of the front-panel of the SR830.
     image("images/lockin_front.jpg", width:70%),
     caption: [Front Panel of the SR830 (Credits: Stanford Research Systems)],
 )
-=== Input
-=== Reference
-=== Filters
+As mentioned before, all the core functionalities in an SR830 are done using a DSP (Digital Signal Processor).
+=== Input and Reference Signals
+The analog input signal is digitised, into a 20 bits, 256 kHz sample-rate digital signal. 
+After this, all the computation for phase sensitive detection that we discussed before, 
+is done digitally using the DSP. Even the reference signal is digitally synthesized. The SINE OUT signal 
+is just that digitally synthesized signal, passed through a Digital to Analog Converter. For the reference
+signal, we can adjust the Phase, Frequency and Amplitude.
+=== Digital Low Pass Filters
+The SR830 uses digital filters, which again are implemented using the DSP. Since the filters are 
+digital, we are not limited to just two stages of filtering. Instead, each PSD can be followed by 
+upto 4 filters, giving us roll-offs ranging from 6dB/Ocatve to 24dB/Octave. The filter has a adjustable roll-off, and 
+an adjustable time constant. The time constant of the filter is just $1/(2pi f)$ where $f$ is the
+-3dB frequency. The time constants range from $1mu S$ to $300s$.
+=== Synchronous Filters
+Recall that the output of our PSD originally gave us a DC signal, and a signal at twice the detection
+frequency. If our detection frequency (say $f$) is too small, then the $2f$ frequency might be
+harder to filter out. The lower $2f$ gets, the higher we must set the time constant and roll-off
+of our low pass filter. Howver, SR830 has synchronous filtering. The synchronous filter averages the
+PSD ourput over a period of the reference signal. Which means, all the harmonics of the detection
+frequency $f$ are notched out. If our signal was perfectly clean, even the need for the Low Pass
+Filtering stage is removed. We only use the synchrounous filter for detection frequencies under 
+200 Hz. Above that, removing the $2f$ frequency using normal filter stages is feasible.
+=== Dynamic Reserve
+TODO
