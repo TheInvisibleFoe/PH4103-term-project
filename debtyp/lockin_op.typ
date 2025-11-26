@@ -51,6 +51,13 @@ theta = arctan(Y/X)
 $
 
 == Core Blocks and Specifications of the SR830
+In this section we describe the core blocks of the SR830 lock-in amplifier, along with the various
+specifications and available values for the adjustable parameters in those blocks. Below is an
+image of the front-panel of the SR830.
+#figure(
+    image("lockin_front.jpg", width:50%),
+    caption: [Front Panel of the SR830],
+)
 === Input
 === Reference
 === Filters
