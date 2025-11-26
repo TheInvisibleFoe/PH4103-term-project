@@ -31,14 +31,21 @@ $
 Where $Delta phi = phi_i - phi_r$, can be adjusted to 0 by setting $phi_r = phi_i$. The output 
 of the low pass filter can then be scaled down by $1/2 V_r$, and we finally end up with the output voltage
 of $V_"out" = V_0$. Note that it's not necessary that the input signal is a pure sinusoid. Infact, 
-most of the times it will not be one. We can use the lock-in amplifier to extract all of the fourier components of
-that carrier signal and hence extract the target signal. To do this, the lock-in performs the calculation
+most of the times it will not be one. 
+
+#figure(
+    image("PSD.png", width: 70%),
+    caption: [Schematic diagram of a Phase Sensitive Detector (Credits: Zelbear on Wikipedia)],
+)
+#pagebreak()
+We can use the lock-in amplifier to extract all the fourier components of
+the target signal at the reference frequency. To do this, the lock-in performs the calculation
 we just described, twice in the two quadratures by using a $90 degree$ phase shifted copy of the reference signal.
 It's better explained by this schematic diagram shown below.
 
 #figure(
-    image("lockin_block_diagram.png", width: 45%),
-    caption: [Schematic Diagram for the SR830 Lock-In Amplifier],
+    image("lockin_block_diagram.png", width: 60%),
+    caption: [Schematic Diagram for the SR830 Lock-In Amplifier (Credits: Stanford Research Systems)],
 )
 
 And the end of this process, we end up with two signals, $X$ and $Y$, which correspond to the $sin$ and 
@@ -56,7 +63,7 @@ specifications and available values for the adjustable parameters in those block
 image of the front-panel of the SR830.
 #figure(
     image("lockin_front.jpg", width:50%),
-    caption: [Front Panel of the SR830],
+    caption: [Front Panel of the SR830 (Credits: Stanford Research Systems)],
 )
 === Input
 === Reference
