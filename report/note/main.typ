@@ -126,8 +126,10 @@
 = Conclusion
 We observed that the four-probe method using a lock-in amplifier is effective for measuring sub-milliohm resistances. The resistance of the given copper wire is measured to be ,
 $
-  R_w = (0.27 plus.minus 0.0071) m Omega
+  R_w &= (0.27 plus.minus 0.071) m Omega \
+  R_w^X &= (0.23 plus.minus 0.087) m Omega 
 $
+
 In our analysis of the flicker noise, we found that the noise voltage follows a $1/f$ dependence, both with synchronous filter on and off. The bermuda bandwidth effect observed around 10 kHz remains unexplained and warrants further investigation.
 
 

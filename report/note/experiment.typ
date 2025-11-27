@@ -74,7 +74,11 @@ $
 $
 The resistance value of the copper wire is given as,
 $
-  R_w = 0.27 plus.minus 0.0071 m Omega
+  R_w = 0.27 plus.minus 0.071 m Omega
+$
+Using the X component of the voltage, we get a similar value of resistance,
+$
+  R_w^X = 0.23 plus.minus 0.087 m Omega
 $
 
 == Errors
@@ -126,7 +130,10 @@ The effect is however most pronounced in the phase angle theta plot.
 #figure(
   image("assets/TheBermudaBandwith_theta.png", width:70%),
   caption: "Voltage vs Frequency plot showing the dip."
+
 )
+
+At higher frequencies, above 10 kHz, the resistances blow up. This is likely due to the skin effect on conductors. As frequency increases, the alternating current creates a magnetic field that induces eddy currents within the conductor. These eddy currents are stronger near the center of the conductor and thus allow currents only on the surface of the conductor. This effectively reduces the cross-sectional area available for current flow, leading to an increase in resistance. 
 
 == Sources of Error
 The main sources of error in this experiment have been listed above in the theory section. Some other sources of error for this experiment are:
