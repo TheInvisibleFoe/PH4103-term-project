@@ -18,7 +18,7 @@ these to signals, we get
 $
 V_"psd" (t) &= V_i (t)V_r (t) \ 
             &= V_0V_1sin(omega_i t + phi_i)sin(omega_r t + phi_r) \
-            &= 1/2 V_0V_1 [cos[(omega_i - omega_r)t + (phi_i - phi_r)] - cos[(omega_i + omega_r) + (phi_i + phi_r)]]
+            &= 1/2 V_0V_1 [cos[(omega_i - omega_r)t + (phi_i - phi_r)] - cos[(omega_i + omega_r)t + (phi_i + phi_r)]]
 $
 As we can see, we end up with two different sinusoidal components. If $omega_i = omega_r$, then we 
 end up with an oscillating AC signal at frequency $2omega_r$ and a DC offset signal. If we now 
