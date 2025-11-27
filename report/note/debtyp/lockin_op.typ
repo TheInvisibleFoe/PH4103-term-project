@@ -69,7 +69,7 @@ As mentioned before, all the core functionalities in an SR830 are done using a D
 === Input and Reference Signals
 The analog input signal is digitised, into a 20 bits, 256 kHz sample-rate digital signal. 
 After this, all the computation for phase sensitive detection that we discussed before, 
-is done digitally using the DSP. Even the reference signal is digitally synthesized. The SINE OUT signal 
+is done digitally using the DSP. Even the reference signal is digitally synthesized. The `SINE OUT` signal 
 is just that digitally synthesized signal, passed through a Digital to Analog Converter. For the reference
 signal, we can adjust the Phase, Frequency and Amplitude.
 === Digital Low Pass Filters

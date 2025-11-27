@@ -1,6 +1,6 @@
 #import "imports.typ":*
 
-= Sub-Milliohn Resistance Measurement
+= Sub-Milliohm Resistance Measurement
 In this experiment, we aim to measure the sub-milliohm resistance of a copper wire using an SR830 Lock-in Amplifier, using the four-probe method to minimize contact resistance effects. This experiment was proposed in its two probe configuration in @Libbrecht2003. We extend this to a four-probe configuration for better accuracy.
 
 == Procedure
