@@ -87,5 +87,35 @@ PSD ourput over a period of the reference signal. Which means, all the harmonics
 frequency $f$ are notched out. If our signal was perfectly clean, even the need for the Low Pass
 Filtering stage is removed. We only use the synchrounous filter for detection frequencies under 
 200 Hz. Above that, removing the $2f$ frequency using normal filter stages is feasible.
-=== Dynamic Reserve
-TODO
+== Noise Sources of the SR830
+There are a variety of ways we can see noise in our lock-in measurements, both intrinsic (random)
+noise, and external noise. Below we list some of these sources in brief detail.
+=== Johnson Noise
+Due to thermal fluctuations, any resistor generates some noise accross it's terminals. 
+The open circuit noise voltage for a resistor with resistance R and temperature T is given by,
+$
+V_"noise" ("rms") = sqrt(4K_B T R Delta f)
+$
+Where $Delta f$ is the bandwidth of the measurement. In a lock-in, the ENBW (Equivalent Noise Bandwidth) 
+of the low pass filters sets the measurement bandwidth. So we have,
+$
+V_"noise" ("rms") = 0.13sqrt(R)sqrt("ENBW") n V
+$
+This ENBW is determined by the roll-off slope and the time constant of the low pass filter.
+=== Shot Noise
+Electric current has noise due to the finite nature
+of the charge carriers, which results in a non-uniformity in the electron flow.
+This noise is called shot noise. The shot noise is given by,
+$
+I_"noise" ("rms") = sqrt(2e I Delta f)
+$
+=== 1/f Noise
+Apart from Johnson Noise, resistors can also generate noise due to fluctuations in resistance 
+due to the current flowing through it. Note that this noise is not thermal in nature and, has a
+$1/f$ power specrum. This makes measurements at low frequencies more difficult.
+
+=== External Noises
+Also there several external noise sources possible which have been listed below,
+- Capacitive Coupling
+- Inductive Coupling
+- Ground Loops
