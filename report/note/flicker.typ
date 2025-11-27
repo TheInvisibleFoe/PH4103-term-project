@@ -62,7 +62,10 @@ So, in different regimes, we have:
 2. $ S \( omega \) = frac(N_0^2 n pi, 2 omega \( lambda_2 - lambda_1 \)) \, lambda_1 < < omega < < lambda_2 $
 3. $ S \( omega \) = frac(N_0^2 n, omega^2) \, lambda_1 < < lambda_2 < < omega $
 
-!\[\[Pasted image 20251127004742.png\]\] (Source: @Milotti;)
+#figure(
+  image("Attachments/Pasted image 20251127004742.png", width: 70%),
+  caption:[(Source: @Milotti; Spectrum from a uniform distribution of relaxation rates)]
+)
 
 Numerical studies have shown that this spectrum is relatively
 insensitive to small deviations from a perfectly uniform distribution of

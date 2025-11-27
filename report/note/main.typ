@@ -39,7 +39,7 @@
   thesis-type: [PH4103 Term Paper],
   supervisor: [Prof. Kamaraju Natarajan \ #h(1.5em) Prof. Sourin Das],
   authors: (
-    
+
     (
       name: "Debayan Sarkar",
       email: "22MS002",
@@ -116,13 +116,19 @@
 
 // Main Content
 //
-= The Lock-In Amplifier 
+= The Lock-In Amplifier
 #include "debtyp/lockin_op.typ"
 #include "flicker.typ"
+#include "fourprobeone.typ"
 #include "experiment.typ"
 #include "noise.typ"
 
-
+= Conclusion
+We observed that the four-probe method using a lock-in amplifier is effective for measuring sub-milliohm resistances. The resistance of the given copper wire is measured to be ,
+$
+  R_w = (0.27 plus.minus 0.0071) m Omega
+$
+In our analysis of the flicker noise, we found that the noise voltage follows a $1/f$ dependence, both with synchronous filter on and off. The bermuda bandwidth effect observed around 10 kHz remains unexplained and warrants further investigation.
 
 
 #pagebreak()

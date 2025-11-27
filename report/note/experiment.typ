@@ -9,7 +9,7 @@ In this experiment, we aim to measure the sub-milliohm resistance of a copper wi
 3. The circuit used in given below in @circuit, using voltage divider, we obtain the resistance of the wire $R_w$.
 4. We set the amplitude of the lock-in amplifier to some reference value, say 2.5 V for our case.
 5. We set the time constant of the lock-in amplifier and the sensitivity appropriately to get a stable reading.
-6. We `AUTO PHASE` and `AUTO GAIN` the lock-in amplifier to optimize the phase and gain settings, such that the gain does 
+6. We `AUTO PHASE` and `AUTO GAIN` the lock-in amplifier to optimize the phase and gain settings, such that the gain does
 7. We record the measurements using a GPIB cable and python scripts using the `pyvisa` library.
 8. We vary the frequency of the lock-in amplifier from 10 Hz to 100 kHz, and record the voltage across the inner probes.
 9. For each frequency, after setting the frequency, we wait for several time constants and then record the voltage reading and the voltage fluctuations.
@@ -26,7 +26,7 @@ The Four probe configuration uses the `SINE OUT` of the lock-in amplifier to dri
 $
   I = (V_A - V_C)/(R_0 + R_w) = (V_B - V_C)/R_w
 $
-Also note that $V_C = 0$, since it is the ground reference for the lock-in amplifier. 
+Also note that $V_C = 0$, since it is the ground reference for the lock-in amplifier.
 Using this, we can derive the expression for $R_w$ as:
 $
   & (V_A - V_C)/(R_0 + R_w) = (V_B - V_C)/R_w \
@@ -64,8 +64,20 @@ The recorded voltage across the inner probes is used to calculate the resistance
   caption: "Voltage vs Frequency plot."
 )
 == Resistance
+From our datasets we take a weighed mean of the resistance values calculated from the voltage measurements in the domain of low error in around the 100 Hz range. The weighed mean resistance value is given by:
+$
+  R_w = (sum_(i) sigma_R^2 R_i)/(sum_(i) sigma_R^2)
+$
+The error in the resistance is given by:
+$
+  sigma_(R_w) = sqrt(sum_i sigma_R^2)
+$
+The resistance value of the copper wire is given as,
+$
+  R_w = 0.27 plus.minus 0.0071 m Omega
+$
 
-== Errors 
+== Errors
 The voltage plots have been calculated with error bars, which are derived from the voltage fluctuations recorded during the experiment. The error bars have been scaled by a factor of 100 for better visibility in the plots.
 
 #figure(
@@ -84,8 +96,8 @@ The voltage plots have been calculated with error bars, which are derived from t
   image("assets/Res_vs_Freq_with_Error_Bars_dat388.png", width:70%),
   caption: "Voltage vs Frequency plot with errorbars."
 )
-== Observations 
-The resistance values calculated from the voltage measurements are in the sub-milliohm range, as expected for a copper wire. Nevertheless there are some features of the graphs that are interesting. 
+== Observations
+The resistance values calculated from the voltage measurements are in the sub-milliohm range, as expected for a copper wire. Nevertheless there are some features of the graphs that are interesting.
 
 
 #figure(
@@ -117,6 +129,11 @@ The effect is however most pronounced in the phase angle theta plot.
 )
 
 == Sources of Error
+The main sources of error in this experiment have been listed above in the theory section. Some other sources of error for this experiment are:
+1. Capacitance and Inductance effects: At higher frequencies, the capacitance and inductance of the wires and contacts can introduce additional impedance, affecting the voltage measurements.
+2. The Lock-in used by us had an inconsistent behaviour when using an external current source. This led us to use the internal signal generator of the lock-in itself, which may have introduced additional errors.
+3. The BNC cable connection to the Lockin amplifier may have introduced additional noise and errors in the measurements.
+4. Frequency measurements done near $50H z$ harmonics may have been affected by power line interference. We have seen an example of that in our data.
 
 
 

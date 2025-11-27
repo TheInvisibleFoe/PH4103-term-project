@@ -1,6 +1,6 @@
 #import "imports.typ":*
 
-== 1/f noise analysis
+= 1/f noise analysis
 
 In this section, we analyze the voltage fluctuations recorded during the resistance measurements to investigate the presence of $1/f$ noise, also known as flicker noise. This type of noise is characterized by a power spectral density that is inversely proportional to the frequency, and it is commonly observed in electronic devices and materials.
 
@@ -11,7 +11,7 @@ Generally, $1/f$ noise can is characterised by its power spectral density (PSD),
 
 Let the noise be denoted by the variable $x(t)$. The power spectral density $S(f)$ is defined as:
 $
-  S(f) = lim_(T -> oo)1/T |hat(x)_T (f)|^2 
+  S(f) = lim_(T -> oo)1/T |hat(x)_T (f)|^2
 $
 where $hat(x)_T (f)$ is the Fourier transform of the signal $x(t)$ over a time interval $T$. The average power in a frequency band $[f_1, f_2]$ is then given by:
 $
@@ -63,4 +63,4 @@ The experimental procedure is the exact same as described in the previous sectio
 )
 
 == Observations
-We observe $1/f$ noise in the data both in datasets with the sync filter turned on and the sync filter turned off. Th 
+We observe $1/f$ noise in the data both in datasets with the sync filter turned on and the sync filter turned off. The data with the sync filter turned on shows a clearer $1/f$ dependence after removing the initial datapoints, which are likely affected by low-frequency noise and approximation errors. The data with the sync filter turned off also exhibits $1/f$ behavior, but with more scatter.
