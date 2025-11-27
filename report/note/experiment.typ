@@ -41,7 +41,7 @@ The parameters used in the experiment are tabulated below:
 2. Reference Frequency: 10 Hz to 100 kHz (varied)
 3. Series Resistor $R_0$: $1 k Omega$
 4. Time Constant: 1 s
-5. Sensitivity: 24 dB/oct
+5. Roll off: 24 dB/oct
 
 == Analysis
 
