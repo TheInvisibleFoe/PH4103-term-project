@@ -66,7 +66,7 @@ The recorded voltage across the inner probes is used to calculate the resistance
 == Resistance
 From our datasets we take a weighed mean of the resistance values calculated from the voltage measurements in the domain of low error in around the 100 Hz range. The weighed mean resistance value is given by:
 $
-  R_w = (sum_(i) sigma_R^2 R_i)/(sum_(i) sigma_R^2)
+  R_w = (sum_(i) sigma_R^(-2) R_i)/(sum_(i) sigma_R^(-2))
 $
 The error in the resistance is given by:
 $

@@ -101,8 +101,10 @@ $ upright("Cable length") > upright("Wavelength") / 10 $ In our case, we
 use driving frequencies upto $approx 100 k H z$. This corresponds to a
 wavelength of $approx 300 m$, and a threshold (from the rule of thumb)
 of $30 m$. Since the cables we use are significantly shorter, impedance
-matching is not something that we concern ourselves with here. \#\#
-Setting up instrument It is to be noted that in our experiment we did
+matching is not something that we concern ourselves with here. 
+
+== Setting up instrument 
+It is to be noted that in our experiment we did
 not have access to a modulated constant current source that could
 generate a clock synchronisation signal compatible with the Lock-In
 Amplifier provided. Thus, we resorted to using the Lock-In Amplifier's
