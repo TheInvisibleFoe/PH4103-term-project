@@ -118,6 +118,10 @@
 //
 = The Lock-In Amplifier 
 #include "debtyp/lockin_op.typ"
+#include "flicker.typ"
+#include "experiment.typ"
+#include "noise.typ"
+
 
 
 
